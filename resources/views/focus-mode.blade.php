@@ -47,17 +47,11 @@
 <script>
     let timerInterval;
     let endTime;
+    const timerDisplay = document.getElementById('timer-display');
 
-    function updateInitialTime() {
-        const type = document.getElementById('task-type').value;
-        const initialMinutes = type === 'heavy' ? 45 : 15;
-        document.getElementById('timer-display').textContent = `${String(initialMinutes).padStart(2, '0')}:00`;
-    }
-
+    // Fungsi untuk memulai timer
     function startTimer(durationInMinutes) {
         clearInterval(timerInterval);
-
-        // Hitung waktu selesai berdasarkan timestamp
         const now = Date.now();
         endTime = now + durationInMinutes * 60 * 1000;
 
@@ -66,22 +60,28 @@
 
             if (remainingMs <= 0) {
                 clearInterval(timerInterval);
-                document.getElementById('timer-display').textContent = '00:00';
-                alert("✅ Waktu fokus selesai! Saatnya istirahat.");
+                timerDisplay.textContent = '00:00';
+                playAlarm();
+                triggerVibrate();
                 return;
             }
 
             const totalSeconds = Math.floor(remainingMs / 1000);
             const minutes = Math.floor(totalSeconds / 60);
             const seconds = totalSeconds % 60;
-
-            document.getElementById('timer-display').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         }, 1000);
     }
 
+    // Fungsi main saat halaman siap
     document.addEventListener('DOMContentLoaded', function () {
         const taskType = document.getElementById('task-type');
         const startButton = document.getElementById('start-button');
+
+        function updateInitialTime() {
+            const initial = taskType.value === 'heavy' ? 45 : 15;
+            timerDisplay.textContent = `${String(initial).padStart(2, '0')}:00`;
+        }
 
         taskType.addEventListener('change', updateInitialTime);
 
@@ -92,5 +92,32 @@
 
         updateInitialTime();
     });
+
+    // ✅ Animasi vibrasi
+    function triggerVibrate() {
+        const alertBox = document.querySelector('.alert-info');
+        alertBox.classList.add('vibrate');
+        setTimeout(() => alertBox.classList.remove('vibrate'), 1000);
+    }
 </script>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+
+    body {
+        font-family: 'Nunito', sans-serif;
+    }
+
+    .vibrate {
+        animation: vibrate 0.3s linear infinite;
+    }
+
+    @keyframes vibrate {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-2px); }
+        50% { transform: translateX(2px); }
+        75% { transform: translateX(-2px); }
+        100% { transform: translateX(0); }
+    }
+</style>
 @endpush
