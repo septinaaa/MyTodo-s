@@ -46,6 +46,7 @@
 @push('scripts')
 <script>
     let timerInterval;
+    let endTime;
 
     function updateInitialTime() {
         const type = document.getElementById('task-type').value;
@@ -53,35 +54,40 @@
         document.getElementById('timer-display').textContent = `${String(initialMinutes).padStart(2, '0')}:00`;
     }
 
+    function startTimer(durationInMinutes) {
+        clearInterval(timerInterval);
+
+        // Hitung waktu selesai berdasarkan timestamp
+        const now = Date.now();
+        endTime = now + durationInMinutes * 60 * 1000;
+
+        timerInterval = setInterval(() => {
+            const remainingMs = endTime - Date.now();
+
+            if (remainingMs <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('timer-display').textContent = '00:00';
+                alert("✅ Waktu fokus selesai! Saatnya istirahat.");
+                return;
+            }
+
+            const totalSeconds = Math.floor(remainingMs / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+
+            document.getElementById('timer-display').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }, 1000);
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         const taskType = document.getElementById('task-type');
         const startButton = document.getElementById('start-button');
-        const timerDisplay = document.getElementById('timer-display');
 
         taskType.addEventListener('change', updateInitialTime);
 
         startButton.addEventListener('click', function () {
-            clearInterval(timerInterval);
-
-            let minutes = taskType.value === 'heavy' ? 45 : 15;
-            let seconds = 0;
-
-            timerInterval = setInterval(() => {
-                if (seconds === 0) {
-                    if (minutes === 0) {
-                        clearInterval(timerInterval);
-                        alert("✅ Waktu fokus selesai! Saatnya istirahat.");
-                        return;
-                    } else {
-                        minutes--;
-                        seconds = 59;
-                    }
-                } else {
-                    seconds--;
-                }
-
-                timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            }, 1000);
+            const minutes = taskType.value === 'heavy' ? 45 : 15;
+            startTimer(minutes);
         });
 
         updateInitialTime();
