@@ -19,8 +19,10 @@
     <div class="container py-5">
         <div class="row align-items-center text-white">
             <div class="col-md-6">
-                <h1 class="fw-bold display-4 mb-3 float-animation">
-                    <img src="{{ asset('img/logo.png') }}" alt="Logo" style="height: 50px;"> My Todo-s App
+                <h1 class="fw-bold display-4 mb-3 d-flex align-items-center">
+                <img src="{{ asset('img/logo.png') }}" alt="Logo"
+                 style="height: 70px; width: 70px; object-fit: cover; border-radius: 50%; margin-right: 15px;">
+                    My Todo-s App
                 </h1>
                 <p class="lead mb-4">“Tugas Tuntas, Hidup Terencana.”</p>
 
