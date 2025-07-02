@@ -1,5 +1,14 @@
 @extends('layouts.app')
 
+@push('styles')
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    body {
+        font-family: 'Nunito', sans-serif;
+    }
+</style>
+@endpush
+
 @section('content')
 <section class="min-vh-100" style="background: linear-gradient(to bottom right, #0d47a1, #1976d2); min-height: 100dvh;">
     <div class="container py-5">
