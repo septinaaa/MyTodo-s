@@ -8,6 +8,11 @@ use App\Http\Controllers\CalendarController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
+// ✅ Landing Page
+Route::get('/landing', function () {
+    return view('landing');
+})->name('landing');
+
 // ✅ Menampilkan halaman login
 Route::get('/', function () {
     return view('auth.login');
