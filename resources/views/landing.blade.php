@@ -6,7 +6,7 @@
         <div class="row align-items-center text-white">
             <div class="col-md-6">
                 <h1 class="fw-bold display-4 mb-3">
-                    <img src="{{ asset('logo.png') }}" alt="Logo" style="height: 50px;"> Todo-s App
+                    <img src="{{ asset('logo.png') }}" alt="Logo" style="height: 50px;"> My Todo-s App
                 </h1>
                 <p class="lead mb-4">“Tugas Tuntas, Hidup Terencana.”</p>
 
