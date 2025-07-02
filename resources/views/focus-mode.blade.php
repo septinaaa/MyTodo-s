@@ -1,5 +1,14 @@
 @extends('layouts.app')
 
+@push('styles')
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    body {
+        font-family: 'Nunito', sans-serif;
+    }
+</style>
+@endpush
+
 @section('content')
 <section class="min-vh-100 d-flex align-items-center" style="background: linear-gradient(to bottom right, #0d47a1, #1976d2);">
     <div class="container">
@@ -41,7 +50,7 @@
     function updateInitialTime() {
         const type = document.getElementById('task-type').value;
         const initialMinutes = type === 'heavy' ? 45 : 15;
-        document.getElementById('timer-display').textContent = ${String(initialMinutes).padStart(2, '0')}:00;
+        document.getElementById('timer-display').textContent = `${String(initialMinutes).padStart(2, '0')}:00`;
     }
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -71,7 +80,7 @@
                     seconds--;
                 }
 
-                timerDisplay.textContent = ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')};
+                timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
             }, 1000);
         });
 
