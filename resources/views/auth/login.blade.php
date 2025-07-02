@@ -1,5 +1,15 @@
 @extends('layouts.app')
 
+@push('styles')
+<!-- Tambahkan font Nunito -->
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    body {
+        font-family: 'Nunito', sans-serif;
+    }
+</style>
+@endpush
+
 @section('content')
 <section class="min-vh-100 d-flex align-items-center justify-content-center" style="background: linear-gradient(to bottom right, #0d47a1, #1976d2);">
     <div class="container">
@@ -12,28 +22,10 @@
                             Login
                         </h2>
 
-                        {{-- Tombol Login Google --}}
-                        <a href="{{ url('/auth/google') }}" class="btn btn-danger w-100 mb-3">
-                            <i class="fab fa-google me-2"></i> Login with Google
+                        {{-- ✅ Tombol Login Google Saja --}}
+                        <a href="{{ url('/auth/google') }}" class="btn btn-danger w-100">
+                            <i class="fab fa-google me-2"></i> Login dengan Google
                         </a>
-
-                        {{-- Form login manual --}}
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" name="email" id="email" class="form-control shadow-sm" required autofocus>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" name="password" id="password" class="form-control shadow-sm" required>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary w-100 shadow-sm">
-                                <i class="fas fa-sign-in-alt me-1"></i> Login
-                            </button>
-                        </form>
                     </div>
                 </div>
             </div>
