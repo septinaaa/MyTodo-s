@@ -2,6 +2,15 @@
 
 @section('title', 'Profil Pengguna')
 
+@push('styles')
+<link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Nunito', sans-serif;
+  }
+</style>
+@endpush
+
 @section('content')
 <section class="min-vh-100 py-5" style="background: linear-gradient(to bottom right, #0d47a1, #1976d2);">
   <div class="container">
