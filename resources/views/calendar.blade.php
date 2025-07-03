@@ -54,7 +54,12 @@
 
 @push('styles')
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
 <style>
+  body {
+    font-family: 'Nunito', sans-serif;
+  }
+
   #calendar {
     background-color: white;
     border-radius: 12px;
