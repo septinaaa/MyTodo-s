@@ -5,6 +5,7 @@ use App\Http\Controllers\TodoController;
 use App\Http\Controllers\FocusModeController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\DashboardController; // ✅ Tambahkan ini
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -74,4 +75,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', function () {
         return view('profile');
     })->name('profile');
+
+    // ✅ Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 });
