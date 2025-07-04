@@ -52,51 +52,68 @@
 <body>
 
 <!-- ✅ NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm border-bottom">
-  <div class="container-fluid">
-    <a class="navbar-brand fw-bold text-primary" href="{{ url('/') }}">Todo-s App</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top py-3">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-primary d-flex align-items-center" href="{{ url('/') }}">
+      <i class="fas fa-check-circle me-2 text-primary"></i> Todo-s App
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
         <li class="nav-item">
-          <a class="nav-link {{ Request::is('main') ? 'active' : '' }}" href="{{ url('/main') }}">Daftar Todo</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {{ Request::is('create') ? 'active' : '' }}" href="{{ url('/create') }}">Tambah Todo</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {{ Request::is('calendar') ? 'active' : '' }}" href="{{ url('/calendar') }}">Kalender Tugas</a>
+          <a class="nav-link {{ Request::is('main') ? 'active' : '' }}" href="{{ url('/main') }}">
+            <i class="fas fa-list-ul me-1"></i> Daftar
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{ Request::is('focus-mode') ? 'active' : '' }}" href="{{ url('/focus-mode') }}">Mode Fokus</a>
+          <a class="nav-link {{ Request::is('create') ? 'active' : '' }}" href="{{ url('/create') }}">
+            <i class="fas fa-plus-circle me-1"></i> Tambah
+          </a>
         </li>
-        <li class="nav-item dropdown ms-4">
-          @auth
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-              👤 {{ Auth::user()->name }}
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-              <li><a class="dropdown-item" href="#">📧 {{ Auth::user()->email }}</a></li>
-              <li><a class="dropdown-item" href="{{ route('profile') }}">⚙ Kelola Profil</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li>
-                <form method="POST" action="{{ route('logout') }}">
-                  @csrf
-                  <button class="dropdown-item" type="submit"> Logout</button>
-                </form>
-              </li>
-            </ul>
-          @else
-            <a href="{{ route('login') }}" class="nav-link">Login</a>
-          @endauth
+        <li class="nav-item">
+          <a class="nav-link {{ Request::is('calendar') ? 'active' : '' }}" href="{{ url('/calendar') }}">
+            <i class="fas fa-calendar-alt me-1"></i> Kalender
+          </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link {{ Request::is('focus-mode') ? 'active' : '' }}" href="{{ url('/focus-mode') }}">
+            <i class="fas fa-stopwatch me-1"></i> Fokus
+          </a>
+        </li>
+
+        @auth
+        <li class="nav-item dropdown ms-3">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=0d6efd&color=fff&rounded=true" class="rounded-circle me-2" height="32" width="32" alt="User Avatar">
+            <span>{{ Auth::user()->name }}</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item" href="#">📧 {{ Auth::user()->email }}</a></li>
+            <li><a class="dropdown-item" href="{{ route('profile') }}">⚙ Kelola Profil</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button class="dropdown-item" type="submit">🚪 Logout</button>
+              </form>
+            </li>
+          </ul>
+        </li>
+        @else
+        <li class="nav-item ms-3">
+          <a href="{{ route('login') }}" class="btn btn-outline-primary">
+            <i class="fas fa-sign-in-alt me-1"></i> Login
+          </a>
+        </li>
+        @endauth
       </ul>
     </div>
   </div>
 </nav>
+
 
 <!-- ✅ MAIN CONTAINER -->
 <div class="container">
