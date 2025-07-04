@@ -63,26 +63,31 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
-        <li class="nav-item">
-          <a class="nav-link {{ Request::is('main') ? 'active' : '' }}" href="{{ url('/main') }}">
-            <i class="fas fa-list-ul me-1"></i> Daftar
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {{ Request::is('create') ? 'active' : '' }}" href="{{ url('/create') }}">
-            <i class="fas fa-plus-circle me-1"></i> Tambah
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {{ Request::is('calendar') ? 'active' : '' }}" href="{{ url('/calendar') }}">
-            <i class="fas fa-calendar-alt me-1"></i> Kalender
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {{ Request::is('focus-mode') ? 'active' : '' }}" href="{{ url('/focus-mode') }}">
-            <i class="fas fa-stopwatch me-1"></i> Fokus
-          </a>
-        </li>
+  <li class="nav-item">
+    <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}" href="{{ url('/dashboard') }}">
+      <i class="fas fa-chart-line me-1"></i> Dashboard
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {{ Request::is('main') ? 'active' : '' }}" href="{{ url('/main') }}">
+      <i class="fas fa-list-ul me-1"></i> Daftar
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {{ Request::is('create') ? 'active' : '' }}" href="{{ url('/create') }}">
+      <i class="fas fa-plus-circle me-1"></i> Tambah
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {{ Request::is('calendar') ? 'active' : '' }}" href="{{ url('/calendar') }}">
+      <i class="fas fa-calendar-alt me-1"></i> Kalender
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {{ Request::is('focus-mode') ? 'active' : '' }}" href="{{ url('/focus-mode') }}">
+      <i class="fas fa-stopwatch me-1"></i> Fokus
+    </a>
+  </li>
 
         @auth
         <li class="nav-item dropdown ms-3">
