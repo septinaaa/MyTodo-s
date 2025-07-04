@@ -55,8 +55,9 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top py-3">
   <div class="container">
     <a class="navbar-brand fw-bold text-primary d-flex align-items-center" href="{{ url('/') }}">
-      <i class="fas fa-check-circle me-2 text-primary"></i> Todo-s App
+      Todo-s App
     </a>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
