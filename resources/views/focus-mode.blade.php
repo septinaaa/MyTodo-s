@@ -41,7 +41,7 @@
     function updateInitialTime() {
         const type = document.getElementById('task-type').value;
         const initialMinutes = type === 'heavy' ? 45 : 15;
-        document.getElementById('timer-display').textContent = ${String(initialMinutes).padStart(2, '0')}:00;
+        document.getElementById('timer-display').textContent = `${String(initialMinutes).padStart(2, '0')}:00`;
     }
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -58,20 +58,20 @@
             let seconds = 0;
 
             timerInterval = setInterval(() => {
+                if (minutes === 0 && seconds === 0) {
+                    clearInterval(timerInterval);
+                    alert("✅ Waktu fokus selesai! Saatnya istirahat.");
+                    return;
+                }
+
                 if (seconds === 0) {
-                    if (minutes === 0) {
-                        clearInterval(timerInterval);
-                        alert("✅ Waktu fokus selesai! Saatnya istirahat.");
-                        return;
-                    } else {
-                        minutes--;
-                        seconds = 59;
-                    }
+                    minutes--;
+                    seconds = 59;
                 } else {
                     seconds--;
                 }
 
-                timerDisplay.textContent = ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')};
+                timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
             }, 1000);
         });
 
