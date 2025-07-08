@@ -1,93 +1,81 @@
+@extends('layouts.app')
+
+@section('content')
+<section class="min-vh-100 d-flex align-items-center" style="background: linear-gradient(to bottom right, #0d47a1, #1976d2);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="card border-0 shadow-sm p-4" style="background-color: #eef4ff;">
+                    <h2 class="text-center text-primary fw-bold mb-4">
+                        🎯 Mode Fokus (Pomodoro)
+                    </h2>
+
+                    <form id="focus-form" class="mb-4">
+                        <label for="task-type" class="form-label fw-semibold">Jenis Tugas:</label>
+                        <select id="task-type" class="form-control shadow-sm">
+                            <option value="light">Ringan (15 menit)</option>
+                            <option value="heavy">Berat (45 menit)</option>
+                        </select>
+
+                        <div class="text-center mt-4">
+                            <button type="button" id="start-button" class="btn btn-primary">
+                                <i class="fas fa-play-circle me-1"></i>Mulai Fokus
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="alert alert-info text-center fs-5">
+                        ⏳ Timer: <strong><span id="timer-display">15:00</span></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endsection
+
 @push('scripts')
 <script>
     let timerInterval;
-    let endTime;
-    let isBreak = false;
+
+    function updateInitialTime() {
+        const type = document.getElementById('task-type').value;
+        const initialMinutes = type === 'heavy' ? 45 : 15;
+        document.getElementById('timer-display').textContent = ${String(initialMinutes).padStart(2, '0')}:00;
+    }
 
     document.addEventListener('DOMContentLoaded', function () {
         const taskType = document.getElementById('task-type');
         const startButton = document.getElementById('start-button');
         const timerDisplay = document.getElementById('timer-display');
 
-        if (!timerDisplay || !startButton || !taskType) return;
-
-        function updateInitialTime() {
-            const duration = taskType.value === 'heavy' ? 45 : 15;
-            timerDisplay.textContent = `${String(duration).padStart(2, '0')}:00`;
-        }
-
-        function startTimer(duration) {
-            clearInterval(timerInterval);
-            endTime = Date.now() + duration * 60 * 1000;
-
-            timerInterval = setInterval(() => {
-                const remaining = endTime - Date.now();
-
-                if (remaining <= 0) {
-                    clearInterval(timerInterval);
-                    timerDisplay.textContent = '00:00';
-                    playAlarm();
-                    triggerVibrate();
-
-                    // Jeda otomatis setelah selesai
-                    if (!isBreak) {
-                        isBreak = true;
-                        setTimeout(() => {
-                            alert("⏳ Istirahat selama 5 menit dimulai!");
-                            startTimer(5);
-                        }, 1000);
-                    } else {
-                        isBreak = false;
-                        setTimeout(() => {
-                            alert("🎯 Waktunya fokus kembali!");
-                            updateInitialTime();
-                        }, 1000);
-                    }
-
-                    return;
-                }
-
-                const minutes = Math.floor(remaining / 1000 / 60);
-                const seconds = Math.floor((remaining / 1000) % 60);
-                timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            }, 1000);
-        }
-
         taskType.addEventListener('change', updateInitialTime);
 
         startButton.addEventListener('click', function () {
-            const duration = taskType.value === 'heavy' ? 45 : 15;
-            isBreak = false;
-            startTimer(duration);
+            clearInterval(timerInterval);
+
+            let minutes = taskType.value === 'heavy' ? 45 : 15;
+            let seconds = 0;
+
+            timerInterval = setInterval(() => {
+                if (seconds === 0) {
+                    if (minutes === 0) {
+                        clearInterval(timerInterval);
+                        alert("✅ Waktu fokus selesai! Saatnya istirahat.");
+                        return;
+                    } else {
+                        minutes--;
+                        seconds = 59;
+                    }
+                } else {
+                    seconds--;
+                }
+
+                timerDisplay.textContent = ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')};
+            }, 1000);
         });
 
         updateInitialTime();
     });
-
-    function playAlarm() {
-        const audio = new Audio('/sounds/alarm.mp3'); // Pastikan file ini ada di public/sounds
-        audio.play().catch(e => console.error("Gagal memainkan audio:", e));
-    }
-
-    function triggerVibrate() {
-        const alertBox = document.querySelector('.alert-info');
-        if (!alertBox) return;
-        alertBox.classList.add('vibrate');
-        setTimeout(() => alertBox.classList.remove('vibrate'), 1500);
-    }
 </script>
-
-<style>
-    .vibrate {
-        animation: vibrate 0.3s linear infinite;
-    }
-
-    @keyframes vibrate {
-        0% { transform: translateX(0); }
-        25% { transform: translateX(-2px); }
-        50% { transform: translateX(2px); }
-        75% { transform: translateX(-2px); }
-        100% { transform: translateX(0); }
-    }
-</style>
 @endpush
