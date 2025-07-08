@@ -2,24 +2,22 @@
 <script>
     let timerInterval;
     let endTime;
+    let isBreak = false;
 
     document.addEventListener('DOMContentLoaded', function () {
         const taskType = document.getElementById('task-type');
         const startButton = document.getElementById('start-button');
         const timerDisplay = document.getElementById('timer-display');
 
+        if (!timerDisplay || !startButton || !taskType) return;
+
         function updateInitialTime() {
             const duration = taskType.value === 'heavy' ? 45 : 15;
             timerDisplay.textContent = `${String(duration).padStart(2, '0')}:00`;
         }
 
-        taskType.addEventListener('change', updateInitialTime);
-
-        startButton.addEventListener('click', function () {
+        function startTimer(duration) {
             clearInterval(timerInterval);
-            const duration = taskType.value === 'heavy' ? 45 : 15;
-
-            // Hitung waktu berakhir
             endTime = Date.now() + duration * 60 * 1000;
 
             timerInterval = setInterval(() => {
@@ -30,6 +28,22 @@
                     timerDisplay.textContent = '00:00';
                     playAlarm();
                     triggerVibrate();
+
+                    // Jeda otomatis setelah selesai
+                    if (!isBreak) {
+                        isBreak = true;
+                        setTimeout(() => {
+                            alert("⏳ Istirahat selama 5 menit dimulai!");
+                            startTimer(5);
+                        }, 1000);
+                    } else {
+                        isBreak = false;
+                        setTimeout(() => {
+                            alert("🎯 Waktunya fokus kembali!");
+                            updateInitialTime();
+                        }, 1000);
+                    }
+
                     return;
                 }
 
@@ -37,30 +51,33 @@
                 const seconds = Math.floor((remaining / 1000) % 60);
                 timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
             }, 1000);
+        }
+
+        taskType.addEventListener('change', updateInitialTime);
+
+        startButton.addEventListener('click', function () {
+            const duration = taskType.value === 'heavy' ? 45 : 15;
+            isBreak = false;
+            startTimer(duration);
         });
 
         updateInitialTime();
     });
 
     function playAlarm() {
-        const audio = new Audio("{{ asset('sounds/alarm.mp3') }}");
-        audio.play();
+        const audio = new Audio('/sounds/alarm.mp3'); // Pastikan file ini ada di public/sounds
+        audio.play().catch(e => console.error("Gagal memainkan audio:", e));
     }
 
     function triggerVibrate() {
         const alertBox = document.querySelector('.alert-info');
+        if (!alertBox) return;
         alertBox.classList.add('vibrate');
         setTimeout(() => alertBox.classList.remove('vibrate'), 1500);
     }
 </script>
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
-
-    body {
-        font-family: 'Nunito', sans-serif;
-    }
-
     .vibrate {
         animation: vibrate 0.3s linear infinite;
     }
